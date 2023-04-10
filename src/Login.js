@@ -25,8 +25,8 @@ function Login() {
           <button className="login__signInButton">Sign In</button>
         </form>
         <p>
-          By signing-in you aggree to the Isaiah's Amazon Clone Condittions of
-          Use & Sale. Please see our privacy Notice, our cookies Notice and our
+          By signing-in you agree to the Isaiah's Amazon Clone Conditions of Use
+          & Sale. Please see our Privacy Notice, our Cookies Notice and our
           Interest-Baseed Ads Notice
         </p>
 
