@@ -10,20 +10,21 @@ function Home() {
           className="home__image"
           src="https://m.media-amazon.com/images/I/61mL9ySACvL._SX3000_.jpg"
         />
-      </div>
 
-      <div className="home__row">
-        <Product />
-        {/* Product */}
-      </div>
+        <div className="home__row">
+          <Product />
+          <Product />
+          {/* Product */}
+        </div>
 
-      <div className="home__row">
-        {/* Product */}
-        {/* Product */}
-        {/* Product */}
-      </div>
+        <div className="home__row">
+          {/* Product */}
+          {/* Product */}
+          {/* Product */}
+        </div>
 
-      <div className="home__row">{/* Product */}</div>
+        <div className="home__row">{/* Product */}</div>
+      </div>
     </div>
   );
 }
