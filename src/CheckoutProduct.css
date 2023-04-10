@@ -5,11 +5,12 @@
 }
 
 .checkoutProduct__info{
-    margin-left: 10px;
+    padding-left: 10px;
 }
 
 .checkoutProduct__title{
-    font-weight: bold;
+    font-weight: 800;
+    font-size: 17px;
 }
 
 .checkoutProduct__rating{
@@ -22,4 +23,10 @@
     margin-top: 10px;
     border-color: #a88734 #9c7e31 #846a29;
     color: #111;
+}
+
+.checkoutProduct__image{
+    object-fit: contain;
+    width: 180px;
+    height: 180px;
 }
