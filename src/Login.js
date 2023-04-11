@@ -27,7 +27,11 @@ function Login() {
 
     // Firebase registration
     signUp(email, password)
-      .then(navigate("/"))
+      .then((arg) => {
+        if (arg) {
+          navigate("/");
+        }
+      })
       .catch((error) => alert(error.message));
   };
 
