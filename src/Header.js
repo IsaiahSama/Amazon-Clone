@@ -18,7 +18,9 @@ function Header() {
   let displayName = null;
   if (user) {
     displayName = user.email;
-    displayName = displayName.slice(0, 3).toUpperCase();
+    if (displayName.length >= 5) {
+      displayName = displayName.slice(0, 3).toUpperCase();
+    }
   }
 
   return (
