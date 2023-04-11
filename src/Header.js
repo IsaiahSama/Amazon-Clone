@@ -28,7 +28,7 @@ function Header() {
         <SearchIcon className="header__searchIcon" />
       </div>
       <div className="header__nav">
-        <Link to="/login" className="header__option link">
+        <Link to={!user && "/login"}>
           <div onClick={handleAuth} className="header__option">
             <span className="header__optionLineOne">
               Hello {user == null ? "Guest" : user.email}
