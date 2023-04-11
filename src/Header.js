@@ -15,6 +15,12 @@ function Header() {
     }
   };
 
+  let displayName = null;
+  if (user) {
+    displayName = user.email;
+    displayName = displayName.slice(0, 3).toUpperCase();
+  }
+
   return (
     <div className="header">
       <Link to="/">
@@ -31,7 +37,7 @@ function Header() {
         <Link to={!user && "/login"}>
           <div onClick={handleAuth} className="header__option">
             <span className="header__optionLineOne">
-              Hello {user == null ? "Guest" : user.email}
+              Hello {user == null ? "Guest" : displayName}
             </span>
             <span className="header__optionLineTwo">
               {user ? "Sign Out" : "Sign In"}
