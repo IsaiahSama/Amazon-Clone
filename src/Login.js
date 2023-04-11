@@ -15,7 +15,7 @@ function Login() {
 
   const register = (e) => {
     e.preventDefault();
-
+    console.log("Account created");
     // Firebase registration
     auth
       .createUserWithEmailAndPassword(email, password)
