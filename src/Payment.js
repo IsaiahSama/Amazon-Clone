@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Payment.css";
 import { useStateValue } from "./StateProvider";
 import CheckoutProduct from "./CheckoutProduct";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useElements, useStripe, CardElement } from "@stripe/react-stripe-js";
 import CurrencyFormat from "react-currency-format";
 import { getBasketTotal } from "./reducer";
+import axios from "axios";
 
 function Payment() {
   const [{ basket, user }, dispatch] = useStateValue();
 
   const stripe = useStripe();
-  const elememts = useElements();
+  const elements = useElements();
 
   const [succeeded, setSucceeded] = useState(false);
   const [processing, setProcessing] = useState("");
@@ -19,8 +20,51 @@ function Payment() {
   const [error, setError] = useState(null);
   const [disabled, setDisabled] = useState(true);
 
-  const handleSubmit = (e) => {
+  const [clientSecret, setClientSecret] = useState(true);
+
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    // Generate the secret
+
+    const getClientSecret = async () => {
+      const response = await axios({
+        method: "post",
+        // Stripe expects the total in subunits. For Example: Cents, pennies instead of Dollars, Pounds
+        url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
+      });
+
+      setClientSecret(response.data.clientSecret);
+    };
+
+    getClientSecret();
+  }, [basket]);
+
+  const handleSubmit = async (e) => {
     // Fancy stuff here
+    e.preventDefault();
+
+    setProcessing(true);
+
+    const payload = await stripe
+      .confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+        },
+      })
+      .then(({ paymentIntent }) => {
+        // paymentIntent == payment confirmation
+
+        setSucceeded(true);
+        setError(null);
+        setProcessing(false);
+
+        navigate("./orders", { replace: true });
+      })
+      .catch((err) => {
+        setError(err);
+        setProcessing(false);
+      });
   };
 
   const handleChange = (e) => {
