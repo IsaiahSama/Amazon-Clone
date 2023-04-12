@@ -8,6 +8,8 @@ import CurrencyFormat from "react-currency-format";
 import { getBasketTotal } from "./reducer";
 import axios from "axios";
 import instance from "./axios";
+import { db } from "./firebase";
+import { doc, setDoc } from "@firebase/firestore";
 
 function Payment() {
   const [{ basket, user }, dispatch] = useStateValue();
@@ -36,7 +38,7 @@ function Payment() {
         );
         setClientSecret(response.data.clientSecret);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
@@ -55,8 +57,38 @@ function Payment() {
           card: elements.getElement(CardElement),
         },
       })
-      .then(({ paymentIntent }) => {
+      .then(async ({ paymentIntent }) => {
         // paymentIntent == payment confirmation
+        // const ordersRef = db
+        //   .collection("users")
+        //   .doc(user?.uid)
+        //   .collection("orders")
+        //   .doc(paymentIntent.id);
+
+        // await ordersRef.set({
+        //   basekt: basket,
+        //   amount: paymentIntent.amount,
+        //   created: paymentIntent.created,
+        // });
+
+        try {
+          // paymentIntent == payment confirmation
+          const ordersRef = doc(
+            db,
+            "users",
+            user?.uid,
+            "orders",
+            paymentIntent.id
+          );
+
+          await setDoc(ordersRef, {
+            basket: basket,
+            amount: paymentIntent.amount,
+            created: paymentIntent.created,
+          });
+        } catch (error) {
+          console.error("Error writing document: ", error);
+        }
 
         setSucceeded(true);
         setError(null);
@@ -66,7 +98,7 @@ function Payment() {
           type: "EMPTY_BASKET",
         });
 
-        navigate("./orders", { replace: true });
+        navigate("/orders", { replace: true });
       })
       .catch((err) => {
         setError(err);
