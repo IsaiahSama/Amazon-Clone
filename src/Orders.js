@@ -9,6 +9,7 @@ import {
 } from "@firebase/firestore";
 import { useStateValue } from "./StateProvider";
 import { db } from "./firebase";
+import Order from "./Order";
 
 function Orders() {
   const [{ basket, user }, dispatch] = useStateValue();
@@ -31,6 +32,12 @@ function Orders() {
   return (
     <div className="orders">
       <h1>Your Orders</h1>
+
+      <div className="orders__order">
+        {orders?.map((order) => (
+          <Order order={order} />
+        ))}
+      </div>
     </div>
   );
 }
