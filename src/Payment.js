@@ -62,6 +62,10 @@ function Payment() {
         setError(null);
         setProcessing(false);
 
+        dispatch({
+          type: "EMPTY_BASKET",
+        });
+
         navigate("./orders", { replace: true });
       })
       .catch((err) => {
